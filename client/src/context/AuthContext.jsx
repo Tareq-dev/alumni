@@ -5,8 +5,6 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
 
-  
-  // Check local storage on mount
   useEffect(() => {
     const storedToken = localStorage.getItem("access_token");
     if (storedToken) {
@@ -14,13 +12,11 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // Function to set the token and update local storage
   const setToken = (token) => {
     setAuthToken(token);
     localStorage.setItem("access_token", token);
   };
 
-  // Function to remove the token and clear local storage
   const removeToken = () => {
     setAuthToken(null);
     localStorage.removeItem("access_token");
