@@ -8,6 +8,7 @@ import {
   resetPasswordReq,
 } from "../controllers/auth.js";
 import { payment } from "../controllers/payment.js";
+import { events } from "../controllers/events.js";
 
 const router = express.Router();
 
@@ -34,5 +35,6 @@ router.post("/logout", logout);
 router.post("/reset", resetPasswordMessage);
 router.post("/reset-password", resetPasswordReq);
 router.post("/create-checkout-session", payment);
+router.post("/compressImage", events);
 
 export default router;
