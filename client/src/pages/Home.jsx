@@ -1,10 +1,8 @@
 import React from "react";
-import Navbar from "./../components/Navbar";
-
+ 
 function Home() {
   return (
     <div>
-      <Navbar />
       <section className="bg-[#FDE047] px-8 py-12">
         <div className="max-w-[1200px] mx-auto">
           <div className="text-center flex flex-col space-y-3">

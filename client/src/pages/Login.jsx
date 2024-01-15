@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 export const Login = () => {
   const [register, setRegister] = useState(false);
@@ -10,6 +11,7 @@ export const Login = () => {
     email: "",
     password: "",
   });
+  const { setToken } = useAuth();
   const navigate = useNavigate();
   const handleInputChange = (e) => {
     setFormData({
@@ -28,7 +30,7 @@ export const Login = () => {
         );
         if (res.data.status) {
           toast.success("Registration successful!");
-          localStorage.setItem("access_token", res.data.token);
+          setToken(res.data.token);
           navigate("/");
         }
       } else {
@@ -39,7 +41,7 @@ export const Login = () => {
         );
         if (res.data.status) {
           toast.success("Login successful!");
-          localStorage.setItem("access_token", res.data.token);
+          setToken(res.data.token);
           navigate("/");
         }
       }
