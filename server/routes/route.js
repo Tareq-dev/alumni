@@ -1,5 +1,7 @@
 import express from "express";
 import { check } from "express-validator";
+import multer from "multer";
+
 import {
   register,
   login,
@@ -11,6 +13,7 @@ import { payment } from "../controllers/payment.js";
 import { events } from "../controllers/events.js";
 
 const router = express.Router();
+const app = express();
 
 const RegisterValidationRules = [
   check("name")
@@ -29,12 +32,23 @@ const LoginValidationRules = [
     .withMessage("Password must be at least 8 characters long"),
 ];
 
-router.post("/register", RegisterValidationRules, register);
-router.post("/login", LoginValidationRules, login);
-router.post("/logout", logout);
-router.post("/reset", resetPasswordMessage);
-router.post("/reset-password", resetPasswordReq);
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "temp-uploads/"); // specify the directory where files will be stored
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname); // generate unique filenames
+  },
+});
+const upload = multer({ storage: storage });
+
+ 
+router.post("/auth/register", RegisterValidationRules, register);
+router.post("/auth/login", LoginValidationRules, login);
+router.post("/auth/logout", logout);
+router.post("/auth/reset", resetPasswordMessage);
+router.post("/auth/reset-password", resetPasswordReq);
 router.post("/create-checkout-session", payment);
-router.post("/compressImage", events);
+router.post("/create-event", upload.single("image"), events);
 
 export default router;

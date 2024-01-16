@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import EventDetails from "./components/EventDetails";
 import Success from "./components/Success";
 import Cencel from "./components/Cencel";
+import CreateEvent from "./pages/CreateEvent";
 
 function App() {
   return (
@@ -39,6 +40,10 @@ function App() {
         <Route
           path="/events/:id"
           element={<EventDetails />}
+        />
+        <Route
+          path="/create-event"
+          element={<CreateEvent />}
         />
         <Route
           path="/success"

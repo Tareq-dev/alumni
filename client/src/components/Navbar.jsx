@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 function Navbar() {
-
   const { authToken, removeToken } = useAuth();
 
   return (
@@ -62,6 +61,9 @@ function Navbar() {
           </li>
           <li className="mx-2">
             <Link to="/events">Event</Link>
+          </li>
+          <li className="mx-2">
+            <Link to="/create-event">Create Event</Link>
           </li>
         </ul>
       </div>
