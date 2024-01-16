@@ -31,6 +31,7 @@
     "nodemon": "^2.0.20",
     "pngquant-bin": "^6.0.1",
     "randomstring": "^1.2.3",
+    "sharp": "^0.33.2",
     "stripe": "^14.12.0"
   }
 }

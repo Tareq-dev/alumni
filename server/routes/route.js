@@ -1,7 +1,7 @@
 import express from "express";
 import { check } from "express-validator";
 import multer from "multer";
-
+// import formidable from "express-formidable";
 import {
   register,
   login,
@@ -14,7 +14,7 @@ import { events } from "../controllers/events.js";
 
 const router = express.Router();
 const app = express();
-
+// app.use(formidable());
 const RegisterValidationRules = [
   check("name")
     .isLength({ min: 5 })
@@ -41,8 +41,8 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
+// upload.single("image"),
 
- 
 router.post("/auth/register", RegisterValidationRules, register);
 router.post("/auth/login", LoginValidationRules, login);
 router.post("/auth/logout", logout);
