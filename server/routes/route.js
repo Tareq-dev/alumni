@@ -10,7 +10,7 @@ import {
   resetPasswordReq,
 } from "../controllers/auth.js";
 import { payment } from "../controllers/payment.js";
-import { events } from "../controllers/events.js";
+import { events, getAllEvents } from "../controllers/events.js";
 
 const router = express.Router();
 const app = express();
@@ -50,5 +50,6 @@ router.post("/auth/reset", resetPasswordMessage);
 router.post("/auth/reset-password", resetPasswordReq);
 router.post("/create-checkout-session", payment);
 router.post("/create-event", upload.single("image"), events);
+router.get("/all-event", getAllEvents);
 
 export default router;

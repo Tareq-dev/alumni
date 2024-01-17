@@ -1,36 +1,36 @@
-import express from "express";
-import authRoutes from "./routes/route.js";
-import cors from "cors";
-import formidable from "express-formidable";
-import bodyParser from "body-parser";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import express from 'express';
+import authRoutes from './routes/route.js';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 const port = 8800;
-// app.use(formidable());
 
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.set("view engine", "ejs");
-
-// Remove the separate body-parser middleware, as express.json() already includes it.
-// app.use(express.json());
+app.set('view engine', 'ejs');
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: 'http://localhost:5173',
     credentials: true,
   })
 );
 
-app.use("/api/", authRoutes);
+const uploadsPath = path.join(__dirname, 'uploads');
+app.use('/api/', authRoutes);
+app.use('/uploads', express.static(uploadsPath));
 
-// app.get("/", (req, res) => {
-//   return res.status(200).json("Hello World!");
-// });
-app.get("/", function (request, result) {
-  result.render("index");
+app.get('/', function (request, result) {
+  result.render('index');
 });
 
 app.listen(port, () => {

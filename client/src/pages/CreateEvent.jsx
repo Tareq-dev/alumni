@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import Loading from "./../components/Loading";
 
-function CreateEvent() {
+function CreateEvent({ setEvents }) {
+  const [fileInputVisible, setFileInputVisible] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     schedule: "",
     date_created: "",
-    image: null, // To store the selected file
+    image: null,
   });
 
   const handleInputChange = (e) => {
@@ -27,118 +31,135 @@ function CreateEvent() {
       formDataObj.append("schedule", formData.schedule);
       formDataObj.append("date_created", formData.date_created);
       formDataObj.append("image", formData.image);
-
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:8800/api/create-event",
         formDataObj
       );
-      console.log("Response:", response);
+
+      if (response.data.success) {
+        setLoading(false);
+        const newData = response.data.data;
+        console.log(newData);
+        setEvents((setEvents) => [...setEvents, newData]);
+        toast.success(`${response.data.message}`);
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          title: "",
+          content: "",
+          schedule: "",
+          date_created: "",
+          image: null,
+        }));
+      }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error(`${error?.response.data.message}`);
+      setLoading(false);
+      // console.error("Error:", error);
     }
   };
-
+  // if (loading) {
+  //   return <Loading />;
+  // }
   return (
-    <div className="flex justify-between gap-5 container mx-auto px-12">
-      <form
-        onSubmit={handleSubmit}
-        encType="multipart/form-data"
-        className="w-1/3 mt-8"
-      >
-        <div className="mb-4">
-          <label
-            htmlFor="title"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Title:
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+    <form
+      onSubmit={handleSubmit}
+      encType="multipart/form-data"
+      className="w-1/3 mt-8"
+    >
+      <div className="mb-4">
+        <label
+          htmlFor="title"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Title:
+        </label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={formData.title}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="content"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Content:
-          </label>
-          <textarea
-            id="content"
-            name="content"
-            value={formData.content}
-            onChange={handleInputChange}
-            rows="4"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          ></textarea>
-        </div>
+      <div className="mb-4">
+        <label
+          htmlFor="content"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Content:
+        </label>
+        <textarea
+          id="content"
+          name="content"
+          value={formData.content}
+          onChange={handleInputChange}
+          rows="4"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        ></textarea>
+      </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="schedule"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Schedule:
-          </label>
-          <input
-            type="text"
-            id="schedule"
-            name="schedule"
-            value={formData.schedule}
-            onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+      <div className="mb-4">
+        <label
+          htmlFor="schedule"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Schedule:
+        </label>
+        <input
+          type="text"
+          id="schedule"
+          name="schedule"
+          value={formData.schedule}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="date_created"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Date Created:
-          </label>
-          <input
-            type="text"
-            id="date_created"
-            name="date_created"
-            value={formData.date_created}
-            onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+      <div className="mb-4">
+        <label
+          htmlFor="date_created"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Date Created:
+        </label>
+        <input
+          type="text"
+          id="date_created"
+          name="date_created"
+          value={formData.date_created}
+          onChange={handleInputChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="image"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Image:
-          </label>
-          <input
-            type="file"
-            name="image"
-            onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
+      <div className="mb-4">
+        <label
+          htmlFor="image"
+          className="block text-gray-700 text-sm font-bold mb-2"
+        >
+          Image:
+        </label>
+        <input
+          type="file"
+          name="image"
+          onChange={handleFileChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
 
-        <div className="mb-4 flex justify-center">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-      <div className="w-2/3"></div>
-    </div>
+      <div className="mb-4 flex justify-center">
+        <button
+          disabled={loading}
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          {loading ? "Uploading.." : "Submit"}
+        </button>
+      </div>
+    </form>
   );
 }
 
