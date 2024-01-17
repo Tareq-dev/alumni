@@ -62,104 +62,108 @@ function CreateEvent({ setEvents }) {
   //   return <Loading />;
   // }
   return (
-    <form
-      onSubmit={handleSubmit}
-      encType="multipart/form-data"
-      className="w-1/3 mt-8"
-    >
-      <div className="mb-4">
-        <label
-          htmlFor="title"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Title:
-        </label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleInputChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
+    <div className="w-1/3 mt-3 p-5">
+      <h1 className="py-4 text-xl text-center font-bold">Create Event List</h1>
 
-      <div className="mb-4">
-        <label
-          htmlFor="content"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Content:
-        </label>
-        <textarea
-          id="content"
-          name="content"
-          value={formData.content}
-          onChange={handleInputChange}
-          rows="4"
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        ></textarea>
-      </div>
+      <form
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+        className=" shadow p-5"
+      >
+        <div className="mb-4">
+          <label
+            htmlFor="title"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Title:
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-      <div className="mb-4">
-        <label
-          htmlFor="schedule"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Schedule:
-        </label>
-        <input
-          type="text"
-          id="schedule"
-          name="schedule"
-          value={formData.schedule}
-          onChange={handleInputChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
+        <div className="mb-4">
+          <label
+            htmlFor="content"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Content:
+          </label>
+          <textarea
+            id="content"
+            name="content"
+            value={formData.content}
+            onChange={handleInputChange}
+            rows="2"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          ></textarea>
+        </div>
 
-      <div className="mb-4">
-        <label
-          htmlFor="date_created"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Date Created:
-        </label>
-        <input
-          type="text"
-          id="date_created"
-          name="date_created"
-          value={formData.date_created}
-          onChange={handleInputChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
+        <div className="mb-4">
+          <label
+            htmlFor="schedule"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Schedule:
+          </label>
+          <input
+            type="text"
+            id="schedule"
+            name="schedule"
+            value={formData.schedule}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-      <div className="mb-4">
-        <label
-          htmlFor="image"
-          className="block text-gray-700 text-sm font-bold mb-2"
-        >
-          Image:
-        </label>
-        <input
-          type="file"
-          name="image"
-          onChange={handleFileChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        />
-      </div>
+        <div className="mb-4">
+          <label
+            htmlFor="date_created"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Date Created:
+          </label>
+          <input
+            type="text"
+            id="date_created"
+            name="date_created"
+            value={formData.date_created}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
 
-      <div className="mb-4 flex justify-center">
-        <button
-          disabled={loading}
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          {loading ? "Uploading.." : "Submit"}
-        </button>
-      </div>
-    </form>
+        <div className="mb-4">
+          <label
+            htmlFor="image"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Image:
+          </label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <div className=" flex justify-center">
+          <button
+            disabled={loading}
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            {loading ? "Uploading.." : "Submit"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 

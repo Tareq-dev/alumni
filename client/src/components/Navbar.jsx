@@ -5,7 +5,7 @@ function Navbar() {
   const { authToken, removeToken } = useAuth();
 
   return (
-    <div className="navbar bg-base-100 md:px-12">
+    <div className="navbar border-b bg-base-100 md:px-12">
       <div className="navbar-start">
         <div className="dropdown">
           <div

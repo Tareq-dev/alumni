@@ -6,8 +6,6 @@ import Pagination from "./../components/Pagination";
 function EventManage() {
   const [events, setEvents] = useState([]);
   const [selectedOption, setSelectedOption] = useState(25);
-  console.log(lastItemIndex);
-  // useEffect to remove the green background after 2 seconds
 
   useEffect(() => {
     // Fetch events when the component mounts
@@ -26,9 +24,9 @@ function EventManage() {
   const imageBaseUrl = "http://localhost:8800/uploads";
 
   return (
-    <div className="flex justify-between gap-40 container mx-auto px-12">
+    <div className="flex justify-between gap-12 container mx-auto py-8 px-12">
       <CreateEvent setEvents={setEvents} />
-      <div className="w-2/3 mt-10">
+      <div className="w-2/3 mt-7">
         <div className="flex justify-between items-center pr-4">
           <h1 className="py-4 text-xl font-bold">Event List</h1>
           <Pagination
@@ -36,7 +34,7 @@ function EventManage() {
             setSelectedOption={setSelectedOption}
           />
         </div>
-        <div className="h-[500px] overflow-y-auto">
+        <div className="h-[528px] border overflow-y-auto px-8 py-10">
           {events
             ?.slice()
             .reverse()
