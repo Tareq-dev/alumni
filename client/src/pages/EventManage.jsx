@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import CreateEvent from "./CreateEvent";
 import axios from "axios";
 import Pagination from "./../components/Pagination";
+import Loading from "./../components/Loading";
 
 function EventManage() {
+  const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const [selectedOption, setSelectedOption] = useState(25);
 
@@ -14,15 +16,20 @@ function EventManage() {
 
   const fetchEvents = async () => {
     try {
+      setLoading(true);
       const response = await axios.get("http://localhost:8800/api/all-event");
       const fetchedEvents = response.data.events;
       setEvents(fetchedEvents);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching events:", error.message);
     }
   };
   const imageBaseUrl = "http://localhost:8800/uploads";
 
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div className="flex justify-between gap-12 container mx-auto py-8 px-12">
       <CreateEvent setEvents={setEvents} />
