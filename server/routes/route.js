@@ -11,6 +11,7 @@ import {
 } from "../controllers/auth.js";
 import { payment } from "../controllers/payment.js";
 import { events, getAllEvents } from "../controllers/events.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 const app = express();
@@ -32,6 +33,29 @@ const LoginValidationRules = [
     .withMessage("Password must be at least 8 characters long"),
 ];
 
+const verifyJWT = (req, res, next) => {
+  const email = req.query.email;
+  const authorization = req.headers.authorization;
+
+  if (!authorization)
+    return res
+      .status(401)
+      .send({ error: true, message: "Unauthorized access" });
+
+  const token = authorization.split(" ")[1];
+
+  jwt.verify(token, "jwtkey", (err, decoded) => {
+    if (err) {
+      return res
+        .status(401)
+        .send({ error: true, message: "Unauthorized access" });
+    }
+    req.decoded = decoded;
+
+    next();
+  });
+};
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "temp-uploads/"); // specify the directory where files will be stored
@@ -50,6 +74,6 @@ router.post("/auth/reset", resetPasswordMessage);
 router.post("/auth/reset-password", resetPasswordReq);
 router.post("/create-checkout-session", payment);
 router.post("/create-event", upload.single("image"), events);
-router.get("/all-event", getAllEvents);
+router.get("/all-event", verifyJWT, getAllEvents);
 
 export default router;

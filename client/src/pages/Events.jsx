@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import EventCard from "./../components/EventCard";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function Events() {
+  const [eventData, setEventData] = useState([]);
+  const [error, setError] = useState("");
+  const { authToken, authEmail } = useAuth();
+
   const events = [
     {
       id: 1,
-      title: "Tech Conference 2024",
+      title: "Tech Conference 2025",
       price: 95,
       description:
         "Join us for the latest in technology trends and innovations.",
@@ -58,26 +64,52 @@ function Events() {
     },
     // Add more events as needed
   ];
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log(authEmail)
+      if (authEmail) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8800/api/all-event?email=${authEmail}`,
+            {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          setEventData(response.data.events);
+        } catch (error) {
+          setError(error.response.data.message);
+        }
+      } else {
+        setError("Login to see events");
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="bg-gray-100 container mx-auto">
       {/* Events List Section */}
       <section className="py-16 px-12">
-        <div className="container mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-center">
-            Upcoming Events
-          </h1>
+        {error ? (
+          <p className="text-center text-3xl text-red-400 py-28">{error}</p>
+        ) : (
+          <div className="container mx-auto">
+            <h1 className="text-4xl font-bold mb-8 text-center">
+              Upcoming Events
+            </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 px-12 justify-items-center gap-8">
-            {/* Event Card - Repeat for each event */}
-            {events.map((event, i) => (
-              <EventCard
-                event={event}
-                key={i}
-              />
-            ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 px-12 justify-items-center gap-8">
+              {/* Event Card - Repeat for each event */}
+              {eventData.map((event, i) => (
+                <EventCard event={event} key={i} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </section>
     </div>
   );

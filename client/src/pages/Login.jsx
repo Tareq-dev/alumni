@@ -31,6 +31,7 @@ export const Login = () => {
         if (res.data.status) {
           toast.success("Registration successful!");
           setToken(res.data.token);
+          localStorage.setItem("userEmail", formData.email);
           navigate("/");
         }
       } else {
@@ -42,6 +43,7 @@ export const Login = () => {
         if (res.data.status) {
           toast.success("Login successful!");
           setToken(res.data.token);
+          localStorage.setItem("userEmail", formData?.email);
           navigate("/");
         }
       }
@@ -61,10 +63,7 @@ export const Login = () => {
         >
           <h1 className="backdrop-blur-sm text-4xl pb-4">Register</h1>
           <div className="space-y-3">
-            <label
-              htmlFor="name"
-              className="block"
-            >
+            <label htmlFor="name" className="block">
               Name
             </label>
             <input
@@ -74,10 +73,7 @@ export const Login = () => {
               placeholder="Jhon Doe"
               className="p-2 block w-full drop-shadow-lg outline-none border rounded-md  invalid:border-red-700 valid:border-black"
             />
-            <label
-              htmlFor="email"
-              className="block"
-            >
+            <label htmlFor="email" className="block">
               Email
             </label>
             <input
@@ -87,10 +83,7 @@ export const Login = () => {
               placeholder="example@example.com"
               className="p-2 block w-full drop-shadow-lg outline-none border rounded-md  invalid:border-red-700 valid:border-black"
             />
-            <label
-              htmlFor="u_password"
-              className="block"
-            >
+            <label htmlFor="u_password" className="block">
               Password
             </label>
             <input
@@ -145,10 +138,7 @@ export const Login = () => {
         >
           <h1 className="backdrop-blur-sm text-4xl pb-4">Login</h1>
           <div className="space-y-3">
-            <label
-              htmlFor="email"
-              className="block"
-            >
+            <label htmlFor="email" className="block">
               Email
             </label>
             <input
@@ -158,10 +148,7 @@ export const Login = () => {
               placeholder="example@example.com"
               className="p-2 block w-full drop-shadow-lg outline-none border rounded-md invalid:border-red-700 valid:border-black"
             />
-            <label
-              htmlFor="password"
-              className="block"
-            >
+            <label htmlFor="password" className="block">
               Password
             </label>
             <input

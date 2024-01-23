@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 function EventCard({ event }) {
   const { id, price, title, description, date, venue } = event;
+ 
+  
   const inputDate = new Date(date);
   const options = { day: "numeric", month: "short" };
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
@@ -71,9 +73,9 @@ function EventCard({ event }) {
             <div className="absolute top-6 left-10 text-white text-xl font-semibold flex flex-col">
               <span>
                 {/* <sub className="font-normal text-sm">$</sub> */}
-                <span className="text-2xl font-bold">{day}</span>
+                <span className="text-2xl font-bold">10</span>
               </span>
-              <span className="text-sm font-normal">{month}</span>
+              <span className="text-sm font-normal">02</span>
             </div>
           </div>
         </div>
@@ -83,9 +85,9 @@ function EventCard({ event }) {
           Venue - {venue}
         </p>
         <h3 className="text-2xl font-semibold text-slate-800 pb-2">{title}</h3>
-        <p className="text-justify">{description.slice(0, 150)} ...</p>
+        <p className="text-justify">data ...</p>
         <p className="text-xl text-sky-600 font-bold">
-          Enrollment Fee - ${price}
+          Enrollment Fee - $100
         </p>
         <div className="pt-4 flex justify-center">
           <button

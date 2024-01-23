@@ -4,13 +4,15 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
+  const [authEmail, setAuthEmail] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("access_token");
     if (storedToken) {
       setAuthToken(storedToken);
+      setAuthEmail(localStorage.getItem("userEmail"));
     }
-  }, []);
+  }, [authToken]);
 
   const setToken = (token) => {
     setAuthToken(token);
@@ -19,11 +21,15 @@ const AuthProvider = ({ children }) => {
 
   const removeToken = () => {
     setAuthToken(null);
+    setAuthEmail(null);
     localStorage.removeItem("access_token");
+    localStorage.removeItem("userEmail");
   };
 
   return (
-    <AuthContext.Provider value={{ authToken, setToken, removeToken }}>
+    <AuthContext.Provider
+      value={{ authToken, authEmail, setToken, removeToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

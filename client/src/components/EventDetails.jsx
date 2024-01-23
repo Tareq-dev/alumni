@@ -70,6 +70,8 @@ function EventDetails() {
   }, []);
 
   const makePayment = async () => {
+
+    console.log('click')
     const stripe = await loadStripe(
       "pk_test_51OYkaUKD2nUbbLbiczZ2Wex3kjlPoX6ca9IBZtqUe3cwiCLD5Stp5w3CueaLeZlNBCA8wKPp2HsVDSpVpaeH1pWQ00AcbfZLHR"
     );
@@ -80,7 +82,7 @@ function EventDetails() {
       "Content-Type": "application/json",
     };
     const response = await fetch(
-      "http://localhost:8800/api/auth/create-checkout-session",
+      "http://localhost:8800/api/create-checkout-session",
       {
         method: "POST",
         headers: headers,

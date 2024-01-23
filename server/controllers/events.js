@@ -5,7 +5,6 @@ import { db } from "../db.js";
 //POST
 const events = async (req, res) => {
   const image = req.file;
-
   const { title, content, schedule, date_created } = req.body;
   try {
     if (image) {
