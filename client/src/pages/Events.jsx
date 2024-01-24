@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import EventCard from "./../components/EventCard";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import useAxiosSecure from "../axios/useAxiosSecure";
 
 function Events() {
   const [eventData, setEventData] = useState([]);
   const [error, setError] = useState("");
-  const { authToken, authEmail } = useAuth();
-
+  const { authEmail } = useAuth();
+  const axiosInstance = useAxiosSecure();
   const events = [
     {
       id: 1,
@@ -66,24 +67,17 @@ function Events() {
   ];
   useEffect(() => {
     const fetchData = async () => {
-      console.log(authEmail)
-      if (authEmail) {
-        try {
-          const response = await axios.get(
-            `http://localhost:8800/api/all-event?email=${authEmail}`,
-            {
-              headers: {
-                Authorization: `Bearer ${authToken}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          setEventData(response.data.events);
-        } catch (error) {
-          setError(error.response.data.message);
-        }
-      } else {
-        setError("Login to see events");
+      // if (authEmail) {
+
+      // } else {
+      //   setError("Login to see events");
+      // }
+      try {
+        const response = await axiosInstance(`/all-event?email=${authEmail}`);
+        setEventData(response.data.events);
+      } catch (error) {
+        console.log(error);
+        // setError(error.response.data.message);
       }
     };
 

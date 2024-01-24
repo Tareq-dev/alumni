@@ -3,11 +3,15 @@ import CreateEvent from "./CreateEvent";
 import axios from "axios";
 import Pagination from "./../components/Pagination";
 import Loading from "./../components/Loading";
+import { useAuth } from "../context/AuthContext";
+import useAxiosSecure from "../axios/useAxiosSecure";
 
 function EventManage() {
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const [selectedOption, setSelectedOption] = useState(25);
+  const { authToken, authEmail } = useAuth();
+  const axiosInstance = useAxiosSecure();
 
   useEffect(() => {
     // Fetch events when the component mounts
@@ -15,14 +19,16 @@ function EventManage() {
   }, []);
 
   const fetchEvents = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get("http://localhost:8800/api/all-event");
-      const fetchedEvents = response.data.events;
-      setEvents(fetchedEvents);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching events:", error.message);
+    if (authEmail) {
+      try {
+        setLoading(true);
+        const response = await axiosInstance(`/all-event?email=${authEmail}`);
+        const fetchedEvents = response.data.events;
+        setEvents(fetchedEvents);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching events:", error.message);
+      }
     }
   };
   const imageBaseUrl = "http://localhost:8800/uploads";
@@ -63,10 +69,7 @@ function EventManage() {
                   </p>
                 </div>
                 <div className="flex gap-10">
-                  <div
-                    className="tooltip"
-                    data-tip="view"
-                  >
+                  <div className="tooltip" data-tip="view">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -87,10 +90,7 @@ function EventManage() {
                       />
                     </svg>
                   </div>
-                  <div
-                    className="tooltip"
-                    data-tip="edit"
-                  >
+                  <div className="tooltip" data-tip="edit">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -106,10 +106,7 @@ function EventManage() {
                       />
                     </svg>
                   </div>
-                  <div
-                    className="tooltip"
-                    data-tip="delete"
-                  >
+                  <div className="tooltip" data-tip="delete">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
